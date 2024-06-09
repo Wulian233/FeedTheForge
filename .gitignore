@@ -1,0 +1,6 @@
+*.zip
+/feedtheforge/__pycache__
+/__main__.build
+/__main__.dist
+/__main__.onefile-build
+FeedTheForge.exe
