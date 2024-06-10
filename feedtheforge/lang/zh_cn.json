@@ -1,4 +1,5 @@
-{   "feedtheforge.start.title": "按 上 下 键 选 择 ， 回 车 确 认  ：",
+{   
+    "feedtheforge.start.title": "按 上 下 键 选 择 ， 回 车 确 认  ：",
     "feedtheforge.start.featured_modpack": "查 看 热 门 整 合 包",
     "feedtheforge.start.featured_modpack_desc": "查 看 当 前 近 20天 最 热 门 的 5个 整 合 包 并 选 择 下 载",
     "feedtheforge.start.search_modpack": "搜 索 整 合 包",
@@ -14,7 +15,7 @@
     "feedtheforge.main.enter_version": "请输入整合包版本（留空默认最新）：",
     "feedtheforge.main.getting_error": "网络错误，获取整合包列表失败。回车自动退出",
     "feedtheforge.main.getting_list": "正在获取整合包列表",
-    "feedtheforge.main.has_chinese_patch": "本整合包有人工汉化补丁可用，是否自动下载并安装？输入Y安装。",
+    "feedtheforge.main.has_chinese_patch": "本整合包有人工汉化补丁可用，是否自动下载并安装？输入Y安装：",
     "feedtheforge.main.search_modpack": "请输入整合包英文关键词：",
     "feedtheforge.main.invalid_pack_id": "没有对应的整合包。请输入正确的整合包id",
     "feedtheforge.main.invalid_modpack_version": "没有对应的整合包版本。请输入一个正确的版本。回车自动退出",

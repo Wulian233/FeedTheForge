@@ -56,14 +56,14 @@ async def get_featured_modpack():
     await _featured_and_search(featured_json)
 
 async def search_modpack():
-    # print("未完成，敬请期待")
     search_json = os.path.join(cache_dir, "search_modpacks.json")
     keyword = input(lang.t("feedtheforge.main.search_modpack"))
-    async with aiohttp.ClientSession() as session:
-        await download_file(session, api_search + keyword, search_json)
+    print("未完成，敬请期待")
+    # async with aiohttp.ClientSession() as session:
+        # await download_file(session, api_search + keyword, search_json)
     
     # await _featured_and_search(search_json)
-    os.remove(search_json)
+    # os.remove(search_json)
 
 def get_modpack_info(modpack_id):
     global modpack_id_path
@@ -85,7 +85,10 @@ async def chinese_patch(lanzou_url):
     for root, _, files in os.walk(patch_folder):
         for file in files:
             patch_file = os.path.join(root, file)
-            shutil.move(patch_file, modpack_path)
+            relative_path = os.path.relpath(patch_file, patch_folder)
+            target_path = os.path.join(modpack_path, "overrides", relative_path)
+            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            shutil.move(patch_file, target_path)
     shutil.rmtree(patch_folder)
 
 async def download_modpack(modpack_id):
@@ -95,40 +98,38 @@ async def download_modpack(modpack_id):
 
     modpack_name = modpack_data["name"]
     modpack_author = modpack_data["authors"][0]["name"]
-    modpack_version = modpack_data["versions"][0]["name"]
-    print(lang.t("feedtheforge.main.modpack_name", modpack_name = modpack_name))
+    modpack_version = modpack_data["versions"][-1]["name"]
+    print(lang.t("feedtheforge.main.modpack_name", modpack_name=modpack_name))
     versions = modpack_data["versions"]
     version_list = [version["id"] for version in versions]
-    print(lang.t("feedtheforge.main.version_list", version_list = version_list))
+    print(lang.t("feedtheforge.main.version_list", version_list=version_list))
     selected_version = input(lang.t("feedtheforge.main.enter_version"))
 
     # 输入为空且有版本可下载（更保险），取最新版本
     if not selected_version and version_list:
-        selected_version = max(version_list)
-        print(lang.t("feedtheforge.main.default_version", selected_version = selected_version))
+        selected_version = str(max(version_list))
+        print(lang.t("feedtheforge.main.default_version", selected_version=selected_version))
+
     # id无效，无对应整合包
     elif int(selected_version) not in version_list:
         input(lang.t("feedtheforge.main.invalid_modpack_version"))
-        return
-    # 输入的不是数字，大错特错
-    else:
-        input(lang.t("feedtheforge.main.invalid_modpack_version"))
-        return
-    
+        exit(0)
+
     async with aiohttp.ClientSession() as session:
         await download_file(session, f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}", 
                             os.path.join(cache_dir, "download.json"))
         await get_modpack_files(modpack_name, modpack_author, modpack_version, session)
-    
-    if current_language == "zh_cn":
+
+    if current_language == "zh_CN":
         # 切片[-27:]恰为模组文件名
         request.urlretrieve(i18nupdate_link, os.path.join(mod_path, i18nupdate_link[-27:]))
         # 检查有无对应汉化
         if str(selected_version) in all_patch:
             install = input(lang.t("feedtheforge.main.has_chinese_patch"))
             if install == "Y" or install == "y":
-                chinese_patch(selected_version, all_patch[selected_version])
-            else: pass
+                await chinese_patch(all_patch[selected_version])
+            else:
+                pass
 
     zip_modpack(modpack_name)
 
@@ -176,13 +177,13 @@ async def get_modpack_files(modpack_name, modpack_author, modpack_version, sessi
     with open(os.path.join(modpack_path, "manifest.json"), "w", encoding="utf-8") as f:
         json.dump(manifest_data, f, indent=4)
     
-    # 生成 modlist.html 文件
+    # FIXME 生成 modlist.html 文件
     modlist_file = os.path.join(modpack_path, "modlist.html")
-    with modlist_file.open("w", encoding="utf-8") as f:
+    with open(modlist_file, "w", encoding="utf-8") as f:
         f.write("<ul>\n")
-        for file_info in curse_files:
-            mod_page_url = file_info.get("url", "#")
-            f.write(f'<li><a href="{mod_page_url}">{file_info["fileID"]}</a></li>\n')
+        # for file_info in curse_files:
+        #     mod_page_url = file_info.get("url", "#")
+        #     f.write(f'<li><a href="{mod_page_url}">{file_info["fileID"]}</a></li>\n')
         f.write("</ul>\n")
 
     os.makedirs(os.path.join(modpack_path, "overrides"), exist_ok=True)
