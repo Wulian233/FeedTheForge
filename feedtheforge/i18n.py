@@ -4,6 +4,7 @@ from string import Template
 
 class Locale:
     def __init__(self, lang: str):
+        self.lang = lang
         self.path = Path(f"./feedtheforge/lang/{lang}.json")
         self.data = {}
         self.load()
@@ -32,5 +33,7 @@ class Locale:
         localized = self.get_string(key, failed_prompt)
         return Template(localized).safe_substitute(*args, **kwargs)
 
-
-locale: Locale = Locale("zh_cn")
+    def get_language(self):
+        return self.lang
+    
+lang = Locale("zh_CN")

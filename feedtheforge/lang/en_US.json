@@ -1,0 +1,29 @@
+{
+    "feedtheforge.start.title": "Press Up or Down to select, Enter to confirm:",
+    "feedtheforge.start.featured_modpack": "View Featured Modpacks",
+    "feedtheforge.start.featured_modpack_desc": "View and download the top 5 modpacks of the last 20 days",
+    "feedtheforge.start.search_modpack": "Search Modpacks",
+    "feedtheforge.start.search_modpack_desc": "Enter English keywords to search for modpacks, then select to download",
+    "feedtheforge.start.enter_id": "Enter Modpack ID",
+    "feedtheforge.start.enter_id_desc": "Directly enter the numeric ID of the modpack to download",
+    "feedtheforge.start.clean_temp": "Clear Cache",
+    "feedtheforge.start.clean_temp_desc": "Clear cached modpack information. The next startup will be slower",
+
+    "feedtheforge.main.clean_temp": "Cache cleared successfully, a total of $size KB was cleared",
+    "feedtheforge.main.default_version": "Automatically selected the latest version $selected_version",
+    "feedtheforge.main.enter_id": "Please enter the ID of the modpack to download:",
+    "feedtheforge.main.enter_version": "Please enter the modpack version (leave blank for latest):",
+    "feedtheforge.main.getting_error": "Network error, failed to retrieve modpack list. Press Enter to exit",
+    "feedtheforge.main.getting_list": "Getting modpacks list...",
+    "feedtheforge.main.has_chinese_patch": "Don't show in English",
+    "feedtheforge.main.search_modpack": "Please enter keywords for the modpack:",
+    "feedtheforge.main.invalid_pack_id": "No corresponding modpack found. Please enter a valid modpack ID",
+    "feedtheforge.main.invalid_modpack_version": "No corresponding modpack version found. Please enter a valid version. Press Enter to exit",
+    "feedtheforge.main.unsupported_version": "This program requires Python 3.8+ to run. The current version is Python $cur . Press Enter to exit",
+    "feedtheforge.main.version_list": "Available versions for the current modpack: $version_list",
+    "feedtheforge.main.modpack_created": "Compression successful. A modpack named $modpack_name has been created. Please drag it into the launcher to install",
+    "feedtheforge.main.modpack_name": "Successfully selected $modpack_name",
+    "feedtheforge.main.zipping_modpack": "Download completed, creating modpack installation package.",
+
+    "feedtheforge.i18n.failed": "Error: No corresponding localization string"
+}

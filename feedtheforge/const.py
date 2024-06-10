@@ -1,9 +1,15 @@
 import os
 import tempfile
+import locale
 from feedtheforge.i18n import Locale
 
-# 默认且仅支持中文
-locale = Locale("zh_cn")
+# 自动切换语言
+if locale._getdefaultlocale()[0] == "zh_CN":
+    lang = Locale("zh_CN")
+else:
+    lang = Locale("en_US")
+    
+current_language = lang.get_language()
 
 cache_dir = os.path.join(tempfile.gettempdir(), "FeedTheForge")
 packlist_path = os.path.join(cache_dir, "packlist.json")
@@ -18,7 +24,7 @@ api_list = "https://api.modpacks.ch/public/modpack/all"
 api_featured = "https://api.modpacks.ch/public/modpack/featured/20"
 api_search = "https://api.modpacks.ch/public/modpack/search/20/detailed?platform=modpacksch&term="
 
-# 全部汉化 key FTB唯一包版本 vaule 蓝奏云汉化下载链接
+# 全部汉化 key: FTB唯一包版本 vaule: 蓝奏云汉化下载链接
 all_patch = {
     # 100 StoneBlock 3
     "6498": "https://wulian233.lanzouj.com/iwAZ61xg3yib",
