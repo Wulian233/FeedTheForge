@@ -1,4 +1,8 @@
-# Feed The Forge
+<div align="center"> 
+   <img height="100px" width="100px" alt="logo" src="build/icon.png"/> 
+   <h1>Feed The Forge</h1>
+</div>
+
 ## Introduce
 This is a simple tool to download modpacks from FTB without the need of the FTB Launcher.
 

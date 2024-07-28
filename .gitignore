@@ -1,6 +1,10 @@
-*.zip
 **/__pycache__
+**/.vscode
+*.exe
+**/.idea
+*.zip
 /__main__.build
 /__main__.dist
 /__main__.onefile-build
-FeedTheForge.exe
+dist
+build
