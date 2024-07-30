@@ -75,13 +75,17 @@ def get_modpack_info(modpack_id):
         f.write(json.dumps(data, indent=4))
 
 async def chinese_patch(lanzou_url):
-    # 蓝奏云api直链解析下载
+    # 蓝奏云直链解析下载汉化
+    from feedtheforge.lanzou import LanzouDownloader
+    # 获取返回的json中downUrl的值为下载链接
+    data = json.loads(LanzouDownloader().get_direct_link(lanzou_url))
+    down_url = data.get("downUrl")    
     async with aiohttp.ClientSession() as session:
-        await download_file(session, f"https://tool.bitefu.net/lz?url={lanzou_url}", patch)
+        await download_file(session, down_url, patch)
     with ZipFile(patch, 'r') as zip_ref:
         zip_ref.extractall(patch_folder)
     os.remove(patch)
-    # 把汉化补丁移动剪切到整合包
+    # 把汉化移动剪切到整合包临时目录完成汉化
     for root, _, files in os.walk(patch_folder):
         for file in files:
             patch_file = os.path.join(root, file)
@@ -112,8 +116,8 @@ async def download_modpack(modpack_id):
 
     # id无效，无对应整合包
     elif int(selected_version) not in version_list:
-        input(lang.t("feedtheforge.main.invalid_modpack_version"))
-        exit(0)
+        print(lang.t("feedtheforge.main.invalid_modpack_version"))
+        pause()
 
     async with aiohttp.ClientSession() as session:
         await download_file(session, f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}", 
@@ -217,13 +221,20 @@ async def get_modpack_list():
                     json.dump(modpacks_data, f, indent=4)
     # 网络错误无法连接为OSError
     except OSError:
-        input(lang.t("feedtheforge.main.getting_error"))
-        exit(1)
+        print(lang.t("feedtheforge.main.getting_error"))
+        pause()
 
     with open(packlist_path, "r", encoding="utf-8") as f:
         modpacks_data = json.load(f)
     global all_pack_ids
     all_pack_ids = [str(all_pack_ids) for all_pack_ids in modpacks_data["packs"]]
+
+def pause():
+    # Windows
+    if os.name == 'nt': 
+        os.system('pause')
+    else:
+        input(lang.t("feedtheforge.main.pause"))
 
 async def main():
     if not os.path.exists(cache_dir):
