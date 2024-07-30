@@ -1,20 +1,26 @@
 import re
 import json
 import http.client
-from random import randint
 from urllib.parse import urlparse, urlencode
 from urllib.request import Request, urlopen, HTTPError, URLError
 
 class LanzouDownloader:
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0'
     ALTERNATIVE_URLS = [
-        'https://www.lanzouj.com/',
-        'https://www.lanzoui.com/',
-        'https://www.lanzoux.com/',
-        'https://www.lanzouw.com/',
         'https://www.lanzoub.com/',
-        'https://www.lanzouc.com/'
-    ]
+        'https://www.lanzouc.com/', 
+        'https://www.lanzoue.com/', 
+        'https://www.lanzouf.com/', 
+        'https://www.lanzouh.com/', 
+        'https://www.lanzoui.com/', 
+        'https://www.lanzouj.com/', 
+        'https://www.lanzouk.com/', 
+        'https://www.lanzoum.com/', 
+        'https://www.lanzoup.com/', 
+        'https://www.lanzouv.com/', 
+        'https://www.lanzouw.com/', 
+        'https://www.lanzoux.com/', 
+        'https://www.lanzouy.com/']
 
     def __init__(self):
         pass
@@ -104,9 +110,3 @@ class LanzouDownloader:
         response = conn.getresponse()
         conn.close()
         return response.getheader('Location', '')
-
-    def _random_ip(self) -> str:
-        return f"{self._rand_part()}.{self._rand_part()}.{self._rand_part()}.{self._rand_part()}"
-
-    def _rand_part(self) -> str:
-        return str(randint(0, 255))
