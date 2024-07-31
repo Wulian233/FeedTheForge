@@ -8,6 +8,8 @@
     "feedtheforge.start.enter_id_desc": "Directly enter the numeric ID of the modpack to download",
     "feedtheforge.start.clean_temp": "Clean Cache",
     "feedtheforge.start.clean_temp_desc": "Clear cached modpack information. The next startup will be slower",
+    "feedtheforge.start.exit": "Exit",
+    "feedtheforge.start.exit_desc": "Exit the tool and close the window",
 
     "feedtheforge.main.clean_temp": "Cache cleaned successfully, a total of $size KB was cleaned",
     "feedtheforge.main.default_version": "Automatically selected the latest version $selected_version",

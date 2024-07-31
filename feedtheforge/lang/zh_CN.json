@@ -8,6 +8,8 @@
     "feedtheforge.start.enter_id_desc":"直 接 输 入 整 合 包 对 应 的 数 字 id下 载",
     "feedtheforge.start.clean_temp": "清 除 工 具 缓 存",
     "feedtheforge.start.clean_temp_desc": "清 除 缓 存 的 整 合 包 信 息 ， 下 次 启 动 会 变 慢",
+    "feedtheforge.start.exit": "退 出",
+    "feedtheforge.start.exit_desc": "退 出 工 具 ， 关 闭 窗 口",
 
     "feedtheforge.main.clean_temp": "清理缓存成功，共清理了 $size kb",
     "feedtheforge.main.default_version": "已自动选择最新的 $selected_version 版本",
