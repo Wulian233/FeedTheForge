@@ -1,6 +1,7 @@
-from pathlib import Path
 import json
+from pathlib import Path
 from string import Template
+
 
 class Locale:
     def __init__(self, lang: str):

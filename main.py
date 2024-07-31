@@ -1,21 +1,20 @@
 import aiohttp
 import asyncio
-from urllib import request
-from feedtheforge.const import *
 import json
 import os
 import shutil
-from zipfile import ZIP_DEFLATED, ZipFile
 from pick import pick, Option
+from urllib import request
+
+from feedtheforge import utils
+from feedtheforge.const import *
+
 
 async def download_file(session, url, output_path):
     async with session.get(url) as response:
         with open(output_path, "wb") as f:
             while chunk := await response.content.read(1024):
                 f.write(chunk)
-
-async def _create_directory(path):
-    os.makedirs(path, exist_ok=True)
 
 async def download_mod_files(session, non_curse_files):
     tasks = []
@@ -26,7 +25,7 @@ async def download_mod_files(session, non_curse_files):
         output_path = os.path.join(full_path, mod_file_name)
         
         if not os.path.exists(output_path):
-            await _create_directory(full_path)
+            await utils.create_directory(full_path)
             tasks.append(download_file(session, file_info["url"], output_path))
     
     await asyncio.gather(*tasks)
@@ -77,11 +76,14 @@ def get_modpack_info(modpack_id):
 async def chinese_patch(lanzou_url):
     # 蓝奏云直链解析下载汉化
     from feedtheforge.lanzou import LanzouDownloader
+    from zipfile import ZipFile
+
     # 获取返回的json中downUrl的值为下载链接
     data = json.loads(LanzouDownloader().get_direct_link(lanzou_url))
     down_url = data.get("downUrl")    
     async with aiohttp.ClientSession() as session:
         await download_file(session, down_url, patch)
+        
     with ZipFile(patch, 'r') as zip_ref:
         zip_ref.extractall(patch_folder)
     os.remove(patch)
@@ -117,7 +119,7 @@ async def download_modpack(modpack_id):
     # id无效，无对应整合包
     elif int(selected_version) not in version_list:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
-        pause()
+        utils.pause()
 
     async with aiohttp.ClientSession() as session:
         await download_file(session, f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}", 
@@ -135,7 +137,7 @@ async def download_modpack(modpack_id):
             else:
                 pass
 
-    zip_modpack(modpack_name)
+    utils.zip_modpack(modpack_name)
 
 async def get_modpack_files(modpack_name, modpack_author, modpack_version, session):
     os.makedirs(modpack_path, exist_ok=True)
@@ -193,24 +195,6 @@ async def get_modpack_files(modpack_name, modpack_author, modpack_version, sessi
     os.makedirs(os.path.join(modpack_path, "overrides"), exist_ok=True)
     await download_mod_files(session, non_curse_files)
 
-def zip_modpack(modpack_name):
-    print(lang.t("feedtheforge.main.zipping_modpack"))
-
-    with ZipFile(f"{modpack_name}.zip", "w", ZIP_DEFLATED) as zf:
-        for dirname, _, files in os.walk(modpack_path):
-            for filename in files:
-                file_path = os.path.join(dirname, filename)
-                zf.write(file_path, os.path.relpath(file_path, modpack_path))
-    print(lang.t("feedtheforge.main.modpack_created", modpack_name=f"{modpack_name}.zip"))
-    shutil.rmtree(modpack_path, ignore_errors=True)
-
-def cleat_temp():
-    size = 0
-    for root, _, files in os.walk(cache_dir):
-        size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
-    shutil.rmtree(cache_dir, ignore_errors=True)
-    print(lang.t("feedtheforge.main.clean_temp", size=int(size/1024)))
-
 async def get_modpack_list():
     print(lang.t("feedtheforge.main.getting_list"))
     try:
@@ -222,19 +206,12 @@ async def get_modpack_list():
     # 网络错误无法连接为OSError
     except OSError:
         print(lang.t("feedtheforge.main.getting_error"))
-        pause()
+        utils.pause()
 
     with open(packlist_path, "r", encoding="utf-8") as f:
         modpacks_data = json.load(f)
     global all_pack_ids
     all_pack_ids = [str(all_pack_ids) for all_pack_ids in modpacks_data["packs"]]
-
-def pause():
-    # Windows
-    if os.name == 'nt': 
-        os.system('pause')
-    else:
-        input(lang.t("feedtheforge.main.pause"))
 
 async def main():
     if not os.path.exists(cache_dir):
@@ -252,8 +229,10 @@ async def main():
         Option(lang.t("feedtheforge.start.clean_temp"), 
                description=lang.t("feedtheforge.start.clean_temp_desc"))
     ]
-    options, index = pick(options, title, indicator="=>")
 
+    option, index = pick(options, title, indicator="=>")
+
+    # 根据选择执行相应的操作
     if index == 0: 
         await get_featured_modpack()
     elif index == 1:
@@ -266,5 +245,4 @@ async def main():
             return
         await download_modpack(modpack_id)
     elif index == 3:
-        cleat_temp()
-        
+        utils.clear_temp()

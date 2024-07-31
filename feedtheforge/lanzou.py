@@ -1,8 +1,9 @@
-import re
-import json
 import http.client
+import json
+import re
 from urllib.parse import urlparse, urlencode
 from urllib.request import Request, urlopen, HTTPError, URLError
+
 
 class LanzouDownloader:
     USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36 Edg/127.0.0.0'
@@ -11,16 +12,20 @@ class LanzouDownloader:
         'https://www.lanzouc.com/', 
         'https://www.lanzoue.com/', 
         'https://www.lanzouf.com/', 
+        'https://www.lanzoug.com/', 
         'https://www.lanzouh.com/', 
         'https://www.lanzoui.com/', 
         'https://www.lanzouj.com/', 
         'https://www.lanzouk.com/', 
+        'https://www.lanzoul.com/', 
         'https://www.lanzoum.com/', 
         'https://www.lanzoup.com/', 
+        'https://www.lanzouu.com/', 
         'https://www.lanzouv.com/', 
         'https://www.lanzouw.com/', 
         'https://www.lanzoux.com/', 
-        'https://www.lanzouy.com/']
+        'https://www.lanzouy.com/'
+    ]
 
     def __init__(self):
         pass

@@ -1,6 +1,7 @@
+import locale
 import os
 import tempfile
-import locale
+
 from feedtheforge.i18n import Locale
 
 # 自动切换语言
@@ -32,7 +33,7 @@ all_patch = {
     "6967": "https://wulian233.lanzouj.com/iwAZ61xg3yib",
     "11655": "https://wulian233.lanzouj.com/iwAZ61xg3yib",
     # 115 Arcanum Institute
-    "11512": "https://vmhanhuazu.lanzouo.com/i8W7Y1nr83le",
+    "11512": "https://vmhanhuazu.lanzouj.com/i8W7Y1nr83le",
     # 122 Builders Paradise 2
     "11840": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
     "11937": "https://wulian233.lanzouj.com/ib5G81wnrpwb"
