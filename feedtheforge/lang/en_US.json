@@ -6,10 +6,10 @@
     "feedtheforge.start.search_modpack_desc": "Enter English keywords to search for modpacks, then select to download",
     "feedtheforge.start.enter_id": "Enter Modpack ID",
     "feedtheforge.start.enter_id_desc": "Directly enter the numeric ID of the modpack to download",
-    "feedtheforge.start.clean_temp": "Clear Cache",
+    "feedtheforge.start.clean_temp": "Clean Cache",
     "feedtheforge.start.clean_temp_desc": "Clear cached modpack information. The next startup will be slower",
 
-    "feedtheforge.main.clean_temp": "Cache cleared successfully, a total of $size KB was cleared",
+    "feedtheforge.main.clean_temp": "Cache cleaned successfully, a total of $size KB was cleaned",
     "feedtheforge.main.default_version": "Automatically selected the latest version $selected_version",
     "feedtheforge.main.enter_id": "Please enter the ID of the modpack to download:",
     "feedtheforge.main.enter_version": "Please enter the modpack version (leave blank for latest):",

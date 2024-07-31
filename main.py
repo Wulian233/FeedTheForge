@@ -245,4 +245,4 @@ async def main():
             return
         await download_modpack(modpack_id)
     elif index == 3:
-        utils.clear_temp()
+        utils.clean_temp()

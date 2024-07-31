@@ -28,7 +28,7 @@ def zip_modpack(modpack_name):
     print(lang.t("feedtheforge.main.modpack_created", modpack_name=f"{modpack_name}.zip"))
     shutil.rmtree(modpack_path, ignore_errors=True)
 
-def clear_temp():
+def clean_temp():
     """
     清理缓存目录中的临时文件
     """
