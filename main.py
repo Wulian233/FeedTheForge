@@ -4,7 +4,6 @@ import json
 import os
 import shutil
 from pick import pick, Option
-from urllib import request
 
 from feedtheforge import utils
 from feedtheforge.const import *
@@ -33,14 +32,17 @@ async def download_files(session, files):
 
 
 async def load_modpack_data(modpack_id):
-    global modpack_id_path
+    """异步加载整合包数据"""
     modpack_id_path = os.path.join(cache_dir, f"pack-{modpack_id}.json")
     url = f"https://api.modpacks.ch/public/modpack/{modpack_id}"
-    with request.urlopen(url) as response:
-        data = json.loads(response.read().decode("utf-8"))
+    
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            data = await response.json()
 
     with open(modpack_id_path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(data, indent=4))
+        json.dump(data, f, indent=4)
+        
     return data
 
 
@@ -61,8 +63,11 @@ async def display_modpack_list(load_json):
 
 async def download_featured_modpack():
     featured_json = os.path.join(cache_dir, "featured_modpacks.json")
-    async with aiohttp.ClientSession() as session:
-        await download_file(session, api_featured, featured_json)
+    # 检查7天内有没有缓存，加快速度
+    if not await utils.is_recent_file(featured_json):
+        async with aiohttp.ClientSession() as session:
+            await download_file(session, api_featured, featured_json)
+
     # 下载选择的整合包
     modpack_id = await display_modpack_list(featured_json)
     await download_modpack(modpack_id)
@@ -75,9 +80,9 @@ async def search_modpack():
 
 
 async def apply_chinese_patch(lanzou_url):
+    """蓝奏云直链解析下载汉化并自动覆盖应用汉化"""
     from feedtheforge.lanzou import LanzouDownloader
     from zipfile import ZipFile
-    # 蓝奏云直链解析下载汉化
     # 获取返回的json中downUrl的值为下载链接
     data = json.loads(LanzouDownloader().get_direct_link(lanzou_url))
     down_url = data.get("downUrl")    
@@ -104,7 +109,7 @@ async def download_modpack(modpack_id):
     modpack_author = modpack_data["authors"][0]["name"]
     versions = modpack_data["versions"]
     version_list = [version["id"] for version in versions]
-
+    
     print(lang.t("feedtheforge.main.modpack_name", modpack_name=modpack_name))
     print(lang.t("feedtheforge.main.version_list", version_list=version_list))
     selected_version = input(lang.t("feedtheforge.main.enter_version"))
@@ -112,11 +117,11 @@ async def download_modpack(modpack_id):
     if not selected_version and version_list:
         selected_version = str(max(version_list))
         print(lang.t("feedtheforge.main.default_version", selected_version=selected_version))
-    # id无效，无对应整合包
-    elif int(selected_version) not in version_list:
+    # id无对应整合包或不是数字
+    else:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
         utils.pause()
-        return
+
 
     async with aiohttp.ClientSession() as session:
         download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
@@ -124,8 +129,9 @@ async def download_modpack(modpack_id):
         await prepare_modpack_files(modpack_name, modpack_author, selected_version, session)
 
     if current_language == "zh_CN":
-        # 切片[-27:]恰为模组文件名
-        request.urlretrieve(i18nupdate_link, os.path.join(mod_path, i18nupdate_link[-27:]))
+        async with aiohttp.ClientSession() as session:
+            # 切片[-27:]恰为模组文件名
+            await download_file(session, i18nupdate_link, os.path.join(mod_path, i18nupdate_link[-27:]))
         # 检查有无对应汉化
         if str(selected_version) in all_patch:
             install = input(lang.t("feedtheforge.main.has_chinese_patch"))
@@ -192,21 +198,23 @@ async def prepare_modpack_files(modpack_name, modpack_author, modpack_version, s
 async def fetch_modpack_list():
     print(lang.t("feedtheforge.main.getting_list"))
     try:
-        with request.urlopen(api_list) as response:
-            if response.status == 200:
-                modpacks_data = json.loads(response.read().decode("utf-8"))
-                with open(packlist_path, "w", encoding="utf-8") as f:
-                    json.dump(modpacks_data, f, indent=4)
-    # 网络错误无法连接为OSError
+        async with aiohttp.ClientSession() as session:
+            async with session.get(api_list) as response:
+                if response.status == 200:
+                    modpacks_data = await response.json()
+                    with open(packlist_path, "w", encoding="utf-8") as f:
+                        json.dump(modpacks_data, f, indent=4)
     except OSError:
         print(lang.t("feedtheforge.main.getting_error"))
         utils.pause()
 
+    # 从本地文件读取数据
     with open(packlist_path, "r", encoding="utf-8") as f:
         modpacks_data = json.load(f)
+    
     global all_pack_ids
-    all_pack_ids = [str(all_pack_ids) for all_pack_ids in modpacks_data["packs"]]
-
+    all_pack_ids = [str(pack_id) for pack_id in modpacks_data.get("packs", [])]
+    print(all_pack_ids)
 
 async def main():
     if not os.path.exists(cache_dir):
@@ -234,6 +242,7 @@ async def main():
         await download_featured_modpack()
     elif index == 1:
         await search_modpack()
+        utils.pause()
     elif index == 2:
         await fetch_modpack_list()
         modpack_id = input(lang.t("feedtheforge.main.enter_id"))
@@ -243,3 +252,4 @@ async def main():
         await download_modpack(modpack_id)
     elif index == 3:
         utils.clean_temp()
+        utils.pause()

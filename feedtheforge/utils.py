@@ -11,6 +11,24 @@ async def create_directory(path):
     """
     os.makedirs(path, exist_ok=True)
 
+async def is_recent_file(filepath, days=7):
+    """
+    检查文件最后修改时间是否在指定天数内
+
+    :param filepath: 文件路径
+    :param days: 距离当前的天数间隔，默认值为7天
+    :return: 如果文件存在且最后修改时间在指定天数内，返回 True 否则返回 False
+    """
+    from datetime import datetime, timedelta
+
+    if not os.path.exists(filepath):
+        return False
+    modification_date = datetime.fromtimestamp(os.path.getmtime(filepath)).date()
+    current_date = datetime.now().date()
+    if current_date - modification_date < timedelta(days=days):
+        return True
+    return False
+
 def zip_modpack(modpack_name):
     """
     压缩整合包文件夹为一个zip文件

@@ -26,6 +26,7 @@ api_featured = "https://api.modpacks.ch/public/modpack/featured/20"
 api_search = "https://api.modpacks.ch/public/modpack/search/20/detailed?platform=modpacksch&term="
 
 # 全部汉化 key: FTB唯一包版本 vaule: 蓝奏云汉化下载链接
+# TODO　未来应单独做出一个json并联网更新，不宜写死。支持匹配id全部版本支持
 all_patch = {
     # 100 StoneBlock 3
     "6498": "https://wulian233.lanzouj.com/iwAZ61xg3yib",
@@ -36,5 +37,6 @@ all_patch = {
     "11512": "https://vmhanhuazu.lanzouj.com/i8W7Y1nr83le",
     # 122 Builders Paradise 2
     "11840": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
-    "11937": "https://wulian233.lanzouj.com/ib5G81wnrpwb"
+    "11937": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
+    "12266": "https://wulian233.lanzouj.com/ib5G81wnrpwb"
 }
