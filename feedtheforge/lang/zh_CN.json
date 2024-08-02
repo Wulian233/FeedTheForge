@@ -13,11 +13,11 @@
 
     "feedtheforge.main.clean_temp": "清理缓存成功，共清理了 $size kb",
     "feedtheforge.main.default_version": "已自动选择最新的 $selected_version 版本",
-    "feedtheforge.main.empty_search": "",
+    "feedtheforge.main.empty_search": "未输入关键词或搜索结果为空，无对应整合包",
     "feedtheforge.main.enter_id": "请输入要下载的整合包id：",
-    "feedtheforge.main.enter_version": "请输入整合包版本（留未输入关键词或搜索结果为空，无对应整合包空默认最新）：",
+    "feedtheforge.main.enter_version": "请输入整合包版本（留空默认选择最新）：",
     "feedtheforge.main.getting_error": "网络错误，获取整合包列表失败。",
-    "feedtheforge.main.getting_list": "正在获取整合包列表",
+    "feedtheforge.main.getting_list": "正在获取整合包列表，请稍等……",
     "feedtheforge.main.has_chinese_patch": "本整合包有人工汉化补丁可用，是否自动下载并安装？输入Y安装：",
     "feedtheforge.main.search_modpack": "请输入整合包英文关键词：",
     "feedtheforge.main.invalid_pack_id": "没有对应的整合包。请输入正确的整合包id",
@@ -25,8 +25,8 @@
     "feedtheforge.main.unsupported_version": "该程序需要Python 3.8+运行，当前版本为Python $cur 。",
     "feedtheforge.main.version_list": "当前整合包可下载版本：$version_list",
     "feedtheforge.main.modpack_created": "压缩成功。已创建名为 $modpack_name 的整合包，请拖入启动器安装",
-    "feedtheforge.main.modpack_name": "成功选择了 $modpack_name",
-    "feedtheforge.main.zipping_modpack": "下载完成，正在压缩制作整合包安装包。",
+    "feedtheforge.main.modpack_name": "成功选择了 $modpack_name ，正在获取可下载的版本，请稍等……",
+    "feedtheforge.main.zipping_modpack": "下载完成，正在压缩制作整合包安装包……",
     
     "feedtheforge.main.pause": "请按Enter键退出",
     "feedtheforge.i18n.failed": "错误：没有对应的本地化字符串"

@@ -5,12 +5,6 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from feedtheforge.const import *
 
 
-async def download_file(session, url, output_path):
-    async with session.get(url) as response:
-        with open(output_path, "wb") as f:
-            while chunk := await response.content.read(1024):
-                f.write(chunk)
-
 async def create_directory(path):
     """
     创建目录，如果目录不存在则创建
