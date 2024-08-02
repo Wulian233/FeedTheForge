@@ -13,8 +13,9 @@
 
     "feedtheforge.main.clean_temp": "清理缓存成功，共清理了 $size kb",
     "feedtheforge.main.default_version": "已自动选择最新的 $selected_version 版本",
+    "feedtheforge.main.empty_search": "",
     "feedtheforge.main.enter_id": "请输入要下载的整合包id：",
-    "feedtheforge.main.enter_version": "请输入整合包版本（留空默认最新）：",
+    "feedtheforge.main.enter_version": "请输入整合包版本（留未输入关键词或搜索结果为空，无对应整合包空默认最新）：",
     "feedtheforge.main.getting_error": "网络错误，获取整合包列表失败。",
     "feedtheforge.main.getting_list": "正在获取整合包列表",
     "feedtheforge.main.has_chinese_patch": "本整合包有人工汉化补丁可用，是否自动下载并安装？输入Y安装：",

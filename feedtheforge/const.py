@@ -5,25 +5,24 @@ import tempfile
 from feedtheforge.i18n import Locale
 
 # 自动切换语言
-if locale._getdefaultlocale()[0] == "zh_CN":
-    lang = Locale("zh_CN")
-else:
-    lang = Locale("en_US")
-    
+default_locale = locale.getdefaultlocale()[0]
+lang = Locale("zh_CN" if default_locale == "zh_CN" else "en_US")
 current_language = lang.get_language()
 
+# 缓存目录设置
 cache_dir = os.path.join(tempfile.gettempdir(), "FeedTheForge")
 packlist_path = os.path.join(cache_dir, "packlist.json")
 modpack_path = os.path.join(cache_dir, "pack_files")
-
 patch = os.path.join(cache_dir, "patch.zip")
 patch_folder = os.path.join(cache_dir, "patch")
-i18nupdate_link = "https://mediafilez.forgecdn.net/files/5335/196/I18nUpdateMod-3.5.5-all.jar"
 mod_path = os.path.join(modpack_path, "overrides", "mods")
 
-api_list = "https://api.modpacks.ch/public/modpack/all"
-api_featured = "https://api.modpacks.ch/public/modpack/featured/20"
-api_search = "https://api.modpacks.ch/public/modpack/search/20/detailed?platform=modpacksch&term="
+I18NUPDATE_LINK = "https://mediafilez.forgecdn.net/files/5335/196/I18nUpdateMod-3.5.5-all.jar"
+
+# API链接
+API_LIST = "https://api.modpacks.ch/public/modpack/all"
+API_FEATURED = "https://api.modpacks.ch/public/modpack/featured/20"
+API_SEARCH = "https://api.modpacks.ch/public/modpack/search/20/detailed?platform=modpacksch&term="
 
 # 全部汉化 key: FTB唯一包版本 vaule: 蓝奏云汉化下载链接
 # TODO　未来应单独做出一个json并联网更新，不宜写死。支持匹配id全部版本支持

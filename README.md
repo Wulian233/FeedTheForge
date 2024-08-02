@@ -15,7 +15,7 @@ WIP
 
 ## Develop and Build
 ### Requirements
-
+- **Git**: 3.8+
 - **Python Version**: 3.8+
 - **Supported Operating Systems**: Windows 10 or later, macOS, Linux
 
@@ -24,6 +24,8 @@ WIP
 1. **Install Dependencies**:
    - Open a terminal and run the following command to install required packages:
      ```bash
+     git clone https://github.com/Wulian233/FeedTheForge.git
+     cd FeedTheForge
      pip install -r requirements.txt
      ```
 
@@ -34,16 +36,21 @@ WIP
 
 1. **Package as Executable**:
    - To package the application as an executable for Windows, run the following script:
+   - Windows
      ```bash
      cd PyBuild
      win_build.bat
      ```
-
+   - Unix
+     ```bash
+     cd PyBuild
+     unix_build.sh
+     ```
 2. **Locate the Executable**:
    - The resulting `.exe` file will be located in the `dist` folder.
 
 3. **Additional Steps**:
-   - Copy the `feedtheforge/lang` folder to the same directory as the `.exe` file to ensure the application runs correctly.
+   - Copy the `feedtheforge/lang` folder to the `dist` directory
 
 ## LICENSE
 [GNU General Public License v3.0](.LICENSE)

@@ -13,6 +13,7 @@
 
     "feedtheforge.main.clean_temp": "Cache cleaned successfully, a total of $size KB was cleaned",
     "feedtheforge.main.default_version": "Automatically selected the latest version $selected_version",
+    "feedtheforge.main.empty_search": "No keywords entered or search results are empty, no corresponding modpack available",
     "feedtheforge.main.enter_id": "Please enter the ID of the modpack to download:",
     "feedtheforge.main.enter_version": "Please enter the modpack version (leave blank for latest):",
     "feedtheforge.main.getting_error": "Network error, failed to retrieve modpack list.",
