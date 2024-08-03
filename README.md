@@ -38,7 +38,7 @@ WIP
 1. **Package as Executable**:
      ```bash
      pip install pyinstaller
-     pyinstaller main.spec
+     pyinstaller PyBuild/main.spec
      ```
 3. **Locate the Executable**:
    - For **Windows**, the executable will be a `.exe` file located in the `dist` folder.

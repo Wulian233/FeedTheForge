@@ -2,12 +2,12 @@
 
 
 a = Analysis(
-    ['__main__.py'],
+    ['../__main__.py'],
     pathex=[],
     binaries=[],
     datas=[
-        ('feedtheforge/lang/zh_CN.json', 'feedtheforge/lang'),
-        ('feedtheforge/lang/en_US.json', 'feedtheforge/lang')
+        ('../feedtheforge/lang/zh_CN.json', 'feedtheforge/lang'),
+        ('../feedtheforge/lang/en_US.json', 'feedtheforge/lang')
     ],
     hiddenimports=['aiohttp', 'pick'],
     hookspath=[],
@@ -38,5 +38,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['PyBuild/icon.ico'],
+    icon=['icon.ico'],
 )

@@ -1,6 +1,6 @@
 import locale
-import os
 import tempfile
+from pathlib import Path
 
 from feedtheforge.i18n import Locale
 
@@ -10,12 +10,12 @@ lang = Locale("zh_CN" if default_locale == "zh_CN" else "en_US")
 current_language = lang.get_language()
 
 # 缓存目录设置
-cache_dir = os.path.join(tempfile.gettempdir(), "FeedTheForge")
-packlist_path = os.path.join(cache_dir, "packlist.json")
-modpack_path = os.path.join(cache_dir, "pack_files")
-patch = os.path.join(cache_dir, "patch.zip")
-patch_folder = os.path.join(cache_dir, "patch")
-mod_path = os.path.join(modpack_path, "overrides", "mods")
+cache_dir = Path(tempfile.gettempdir()) / "FeedTheForge"
+packlist_path = cache_dir / "packlist.json"
+modpack_path = cache_dir / "pack_files"
+patch = cache_dir / "patch.zip"
+patch_folder = cache_dir / "patch"
+mod_path = modpack_path / "overrides" / "mods"
 
 I18NUPDATE_LINK = "https://mediafilez.forgecdn.net/files/5335/196/I18nUpdateMod-3.5.5-all.jar"
 
