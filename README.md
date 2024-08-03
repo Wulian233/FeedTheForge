@@ -15,7 +15,7 @@ WIP
 
 ## Develop and Build
 ### Requirements
-- **Git**: 3.8+
+- **Git**
 - **Python Version**: 3.8+
 - **Supported Operating Systems**: Windows 10 or later, macOS, Linux
 
@@ -29,28 +29,22 @@ WIP
      pip install -r requirements.txt
      ```
 
-2. **Run**:
-   - After installing the dependencies, run `__main__.py`
+2. **Run the Application**:
+   - **Windows**: Use the command `python __main__.py`
+   - **macOS and Linux**: Use the command `python3 __main__.py`
 
-### Building Executable for Windows
+### Building Executable
 
 1. **Package as Executable**:
-   - To package the application as an executable for Windows, run the following script:
-   - Windows
      ```bash
-     cd PyBuild
-     win_build.bat
+     pip install pyinstaller
+     pyinstaller main.spec
      ```
-   - Unix
-     ```bash
-     cd PyBuild
-     unix_build.sh
-     ```
-2. **Locate the Executable**:
-   - The resulting `.exe` file will be located in the `dist` folder.
+3. **Locate the Executable**:
+   - For **Windows**, the executable will be a `.exe` file located in the `dist` folder.
+   - For **macOS**, the application will be packaged as a `.app` bundle, also found in the `dist` folder.
+   - For **Linux**, the executable will be a standalone file in the `dist` folder.
 
-3. **Additional Steps**:
-   - Copy the `feedtheforge/lang` folder to the `dist` directory
 
 ## LICENSE
 [GNU General Public License v3.0](.LICENSE)

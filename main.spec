@@ -5,8 +5,11 @@ a = Analysis(
     ['__main__.py'],
     pathex=[],
     binaries=[],
-    datas=[],
-    hiddenimports=['aiohttp','pick'],
+    datas=[
+        ('feedtheforge/lang/zh_CN.json', 'feedtheforge/lang'),
+        ('feedtheforge/lang/en_US.json', 'feedtheforge/lang')
+    ],
+    hiddenimports=['aiohttp', 'pick'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

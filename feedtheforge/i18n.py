@@ -1,12 +1,17 @@
-import json
+import sys
 from pathlib import Path
+import json
 from string import Template
-
 
 class Locale:
     def __init__(self, lang: str):
         self.lang = lang
-        self.path = Path(f"./feedtheforge/lang/{lang}.json")
+        if getattr(sys, 'frozen', False):
+            # If running in a bundle
+            self.path = Path(sys._MEIPASS) / f"feedtheforge/lang/{lang}.json"
+        else:
+            # If running in a normal Python environment
+            self.path = Path(f"./feedtheforge/lang/{lang}.py")
         self.data = {}
         self.load()
 
@@ -20,7 +25,6 @@ class Locale:
         with open(self.path, "r", encoding="utf-8") as f:
             d = f.read()
             self.data = json.loads(d)
-            f.close()
 
     def get_string(self, key: str, failed_prompt):
         n = self.data.get(key, None)
@@ -36,5 +40,5 @@ class Locale:
 
     def get_language(self):
         return self.lang
-    
+
 lang = Locale("zh_CN")
