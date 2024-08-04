@@ -1,6 +1,5 @@
 import os
 import shutil
-from zipfile import ZIP_DEFLATED, ZipFile
 
 from feedtheforge.const import *
 
@@ -35,6 +34,8 @@ def zip_modpack(modpack_name):
     
     :param modpack_name: 整合包的名称
     """
+    from zipfile import ZIP_DEFLATED, ZipFile
+
     print(lang.t("feedtheforge.main.zipping_modpack"))
 
     with ZipFile(f"{modpack_name}.zip", "w", ZIP_DEFLATED) as zf:
@@ -64,3 +65,4 @@ def pause():
         os.system('pause')
     else:
         input(lang.t("feedtheforge.main.pause"))
+    exit(0)

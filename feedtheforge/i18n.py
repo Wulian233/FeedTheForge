@@ -11,7 +11,7 @@ class Locale:
             self.path = Path(sys._MEIPASS) / f"feedtheforge/lang/{lang}.json"
         else:
             # If running in a normal Python environment
-            self.path = Path(f"./feedtheforge/lang/{lang}.py")
+            self.path = Path(f"./feedtheforge/lang/{lang}.json")
         self.data = {}
         self.load()
 

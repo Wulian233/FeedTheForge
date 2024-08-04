@@ -2,6 +2,7 @@ import asyncio
 import json
 import os
 import shutil
+import aiofiles
 from pick import pick, Option
 
 from feedtheforge import utils
@@ -34,16 +35,16 @@ async def load_modpack_data(modpack_id: str) -> dict:
     async with AsyncDownloader() as dl:
         data = await dl.fetch_json(url)
 
-    with open(modpack_id_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+    async with aiofiles.open(modpack_id_path, "w", encoding="utf-8") as f:
+        await f.write(json.dumps(data, indent=4))
         
     return data
 
 async def display_modpack_list(load_json):
     """读取json并制作对应的选择菜单"""
     options = []
-    with open(load_json, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    async with aiofiles.open(load_json, "r", encoding="utf-8") as f:
+        data = json.loads(await f.read())
         for modpack in data["packs"]:
             # 处理字典形式的数据，即搜索整合包
             if isinstance(modpack, dict): modpack_id = modpack['id']
@@ -100,7 +101,7 @@ async def apply_chinese_patch(lanzou_url: str) -> None:
     from zipfile import ZipFile
     # 获取返回的json中downUrl的值为下载链接
     data = json.loads(LanzouDownloader().get_direct_link(lanzou_url))
-    down_url = data.get("downUrl")    
+    down_url = data.get("downUrl")
     async with AsyncDownloader() as dl:
         await dl.download_file(down_url, patch)
         
@@ -119,10 +120,11 @@ async def apply_chinese_patch(lanzou_url: str) -> None:
 
 
 async def download_modpack(modpack_id: str) -> None:
-    print(lang.t("feedtheforge.main.modpack_name", modpack_name=modpack_name))
-
     modpack_data = await load_modpack_data(modpack_id)
     modpack_name = modpack_data["name"]
+
+    print(lang.t("feedtheforge.main.modpack_name", modpack_name=modpack_name))
+
     modpack_author = modpack_data["authors"][0]["name"]
     versions = modpack_data["versions"]
     version_list = [version["id"] for version in versions]
@@ -138,11 +140,10 @@ async def download_modpack(modpack_id: str) -> None:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
         utils.pause()
 
-
     async with AsyncDownloader() as dl:
         download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
         await dl.download_file(download_url, os.path.join(cache_dir, "download.json"))
-        await prepare_modpack_files(modpack_name, modpack_author, selected_version)
+        await prepare_modpack_files(modpack_name, modpack_author)
 
     if current_language == "zh_CN":
         async with AsyncDownloader() as dl:
@@ -157,15 +158,12 @@ async def download_modpack(modpack_id: str) -> None:
     utils.zip_modpack(modpack_name)
 
 
-async def prepare_modpack_files(modpack_name, modpack_author, modpack_version):
+async def prepare_modpack_files(modpack_name, modpack_author):
     os.makedirs(modpack_path, exist_ok=True)
-    with open(os.path.join(cache_dir, "download.json"), "r", encoding="utf-8") as f:
-        data = json.load(f)
-     # 下面均为CurseForge整合包识别的固定格式
-    mc_version = data["targets"][1]["version"]
-    modloader_name = data["targets"][0]["name"]
-    modloader_version = data["targets"][0]["version"]
-
+    async with aiofiles.open(os.path.join(cache_dir, "download.json"), "r", encoding="utf-8") as f:
+        data = json.loads(await f.read())
+    
+    # 下面均为CurseForge整合包识别的固定格式
     curse_files, non_curse_files = [], []
     for file_info in data["files"]:
         if "curseforge" in file_info:
@@ -177,7 +175,11 @@ async def prepare_modpack_files(modpack_name, modpack_author, modpack_version):
         else:
             non_curse_files.append(file_info)
 
+    mc_version = data["targets"][1]["version"]
+    modloader_name = data["targets"][0]["name"]
+    modloader_version = data["targets"][0]["version"]
     modloader_id = f"{modloader_name}-{modloader_version}"
+    modpack_version = data["name"]
     if modloader_name == "neoforge" and mc_version == "1.20.1":
         modloader_id = f"{modloader_name}-{mc_version}-{modloader_version}"
 
@@ -195,17 +197,17 @@ async def prepare_modpack_files(modpack_name, modpack_author, modpack_version):
         "version": modpack_version
     }
 
-    with open(os.path.join(modpack_path, "manifest.json"), "w", encoding="utf-8") as f:
-        json.dump(manifest_data, f, indent=4)
+    async with aiofiles.open(os.path.join(modpack_path, "manifest.json"), "w", encoding="utf-8") as f:
+        await f.write(json.dumps(manifest_data, indent=4))
     
     # FIXME 生成 modlist.html 文件
     modlist_file = os.path.join(modpack_path, "modlist.html")
-    with open(modlist_file, "w", encoding="utf-8") as f:
-        f.write("<ul>\n")
+    async with aiofiles.open(modlist_file, "w", encoding="utf-8") as f:
+        await f.write("<ul>\n")
         # for file_info in curse_files:
         #     mod_page_url = file_info.get("url", "#")
-        #     f.write(f'<li><a href="{mod_page_url}">{file_info["fileID"]}</a></li>\n')
-        f.write("</ul>\n")
+        #     await f.write(f'<li><a href="{mod_page_url}">{file_info["fileID"]}</a></li>\n')
+        await f.write("</ul>\n")
 
     os.makedirs(os.path.join(modpack_path, "overrides"), exist_ok=True)
     await download_files(non_curse_files)
@@ -216,15 +218,14 @@ async def fetch_modpack_list():
     try:
         async with AsyncDownloader() as dl:
             modpacks_data = await dl.fetch_json(API_LIST)
-            with open(packlist_path, "w", encoding="utf-8") as f:
-                json.dump(modpacks_data, f, indent=4)
+            async with aiofiles.open(packlist_path, "w", encoding="utf-8") as f:
+                await f.write(json.dumps(modpacks_data, indent=4))
     except OSError:
         print(lang.t("feedtheforge.main.getting_error"))
         utils.pause()
 
-    # 从本地文件读取数据
-    with open(packlist_path, "r", encoding="utf-8") as f:
-        modpacks_data = json.load(f)
+    async with aiofiles.open(packlist_path, "r", encoding="utf-8") as f:
+        modpacks_data = json.loads(await f.read())
     
     global all_pack_ids
     all_pack_ids = [str(pack_id) for pack_id in modpacks_data.get("packs", [])]

@@ -15,27 +15,27 @@ WIP
 
 ## Develop and Build
 ### Requirements
-- **Git**
-- **Python Version**: 3.8+
+- **[Git](https://git-scm.com/downloads)**
+- **[Python](https://www.python.org/downloads/)**: 3.8+
 - **Supported Operating Systems**: Windows 10 or later, macOS, Linux
 
 ### Running from Source
 
 1. **Install Dependencies**:
-   - Open a terminal and run the following command to install required packages:
+   - Open a terminal and run:
      ```bash
      git clone https://github.com/Wulian233/FeedTheForge.git
      cd FeedTheForge
      pip install -r requirements.txt
      ```
 
-2. **Run the Application**:
-   - **Windows**: Use the command `python __main__.py`
-   - **macOS and Linux**: Use the command `python3 __main__.py`
+2. **Run**:
+   - **Windows**: `python __main__.py`
+   - **macOS and Linux**: `python3 __main__.py`
 
-### Building Executable
+### Package as Executable
 
-1. **Package as Executable**:
+1. **Package**:
      ```bash
      pip install pyinstaller
      pyinstaller PyBuild/main.spec
