@@ -262,7 +262,7 @@ async def main():
         modpack_id = input(lang.t("feedtheforge.main.enter_id"))
         if modpack_id not in all_pack_ids:
             print(lang.t("feedtheforge.main.invalid_pack_id"))
-            return
+            utils.pause()
         await download_modpack(modpack_id)
     elif index == 3:
         utils.clean_temp()

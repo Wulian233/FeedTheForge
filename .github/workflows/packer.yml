@@ -1,0 +1,20 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-pyinstaller:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - name: PyInstaller
+        uses: Martin005/pyinstaller-action@v1
+        with:
+          spec: 'PyBuild/main.spec'
+          requirements: 'requirements.txt'
+          python_ver: '3.12'
+          upload_exe_with_name: 'FeedTheForge'

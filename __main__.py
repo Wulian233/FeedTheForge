@@ -1,7 +1,8 @@
 if __name__ == "__main__":
     import asyncio
     import sys
-    from main import *
+    from feedtheforge.i18n import lang
+    from feedtheforge.main import main
     from feedtheforge.utils import pause
     
     py_version = sys.version_info

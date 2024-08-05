@@ -6,10 +6,9 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[
-        ('../feedtheforge/lang/zh_CN.json', 'feedtheforge/lang'),
-        ('../feedtheforge/lang/en_US.json', 'feedtheforge/lang')
+        ('../feedtheforge/lang/', 'feedtheforge/lang')
     ],
-    hiddenimports=['aiohttp', 'pick'],
+    hiddenimports=['aiohttp', 'aiofiles', 'pick'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

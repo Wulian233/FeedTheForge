@@ -2,6 +2,7 @@
 **/.vscode
 **/.idea
 *.zip
+.venv
 /__main__.build
 /__main__.dist
 /__main__.onefile-build
