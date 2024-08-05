@@ -31,12 +31,12 @@ jobs:
         
       - name: Build with PyInstaller (Windows)
         run: |
-          pyinstaller -F -i PyBuild/icon.ico -n FeedTheForge-windows --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          python -m PyInstaller -F -i PyBuild/icon.ico -n FeedTheForge-Windows --add-data feedtheforge/lang:feedtheforge/lang __main__.py
           
       - name: Upload (Windows)
         uses: actions/upload-artifact@v4
         with:
-          name: FeedTheForge-windows
+          name: FeedTheForge-Windows
           path: dist/*
 
   build-macos:
@@ -48,7 +48,7 @@ jobs:
         
       - name: Build with PyInstaller (macOS)
         run: |
-          pyinstaller -F -i PyBuild/icon.icns -n FeedTheForge-macOS --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          python -m PyInstaller -F -i PyBuild/icon.icns -n FeedTheForge-macOS --add-data feedtheforge/lang:feedtheforge/lang __main__.py
           
       - name: Upload (macOS)
         uses: actions/upload-artifact@v4
@@ -65,7 +65,7 @@ jobs:
         
       - name: Build with PyInstaller (Linux)
         run: |
-          pyinstaller -F -n FeedTheForge-Linux --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          python -m PyInstaller -F -n FeedTheForge-Linux --add-data feedtheforge/lang:feedtheforge/lang __main__.py
           
       - name: Upload (Linux)
         uses: actions/upload-artifact@v4
