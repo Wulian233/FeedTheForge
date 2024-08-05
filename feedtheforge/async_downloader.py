@@ -1,15 +1,14 @@
 import aiohttp
 import aiofiles
-import asyncio
 
 class AsyncDownloader:
-    def __init__(self, retries=2, retry_delay=2):
+    def __init__(self, retries=2, timeout_enabled=True):
         self.session = None
         self.retries = retries
-        self.retry_delay = retry_delay
+        self.timeout_enabled = timeout_enabled
 
     async def __aenter__(self):
-        timeout = aiohttp.ClientTimeout(total=10)  # 设置总超时
+        timeout = aiohttp.ClientTimeout(total=10) if self.timeout_enabled else None
         self.session = await aiohttp.ClientSession(
             connector=aiohttp.TCPConnector(ssl=False),
             timeout=timeout
@@ -27,15 +26,18 @@ class AsyncDownloader:
                     async with aiofiles.open(output_path, "wb") as f:
                         async for chunk in response.content.iter_chunked(1024*64):
                             await f.write(chunk)
-                print(f"文件下载成功: {output_path}")
-                break  # 下载成功，退出循环
+                break
             except Exception:
                 attempts += 1
+                path_part = output_path.split("overrides")[-1]
                 if attempts >= self.retries:
-                    print(f"文件下载失败，跳过: {output_path}")
+                    if not failure_message_printed:
+                        print(f"文件下载失败，跳过: {path_part}")
+                        failure_message_printed = True
                 else:
-                    print(f"下载失败，尝试重新下载 ({attempts}/{self.retries})...")
-                    await asyncio.sleep(self.retry_delay)
+                    if not failure_message_printed:
+                        print(f"下载失败，尝试重新下载 ({attempts}/{self.retries})...")
+                        failure_message_printed = True
 
     async def fetch_json(self, url):
         async with self.session.get(url) as response:

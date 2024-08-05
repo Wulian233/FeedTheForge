@@ -1,20 +1,74 @@
-name: Build
+name: Build and Upload
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  run-pyinstaller:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+  setup:
+    runs-on: ubuntu-latest
     steps:
-      - name: PyInstaller
-        uses: Martin005/pyinstaller-action@v1.2.0
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          spec: 'PyBuild/main.spec'
-          requirements: 'requirements.txt'
-          python_ver: '3.12'
-          upload_exe_with_name: 'FeedTheForge'
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+  build-windows:
+    needs: setup
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Build with PyInstaller (Windows)
+        run: |
+          pyinstaller -F -i PyBuild/icon.ico -n FeedTheForge-windows --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          
+      - name: Upload (Windows)
+        uses: actions/upload-artifact@v4
+        with:
+          name: FeedTheForge-windows
+          path: dist/*
+
+  build-macos:
+    needs: setup
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Build with PyInstaller (macOS)
+        run: |
+          pyinstaller -F -i PyBuild/icon.icns -n FeedTheForge-macOS --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          
+      - name: Upload (macOS)
+        uses: actions/upload-artifact@v4
+        with:
+          name: FeedTheForge-macOS
+          path: dist/*
+
+  build-linux:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Build with PyInstaller (Linux)
+        run: |
+          pyinstaller -F -n FeedTheForge-Linux --add-data feedtheforge/lang:feedtheforge/lang __main__.py
+          
+      - name: Upload (Linux)
+        uses: actions/upload-artifact@v4
+        with:
+          name: FeedTheForge-Linux
+          path: dist/*

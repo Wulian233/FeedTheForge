@@ -29,5 +29,9 @@
     "feedtheforge.main.zipping_modpack": "下载完成，正在压缩制作整合包安装包……",
     
     "feedtheforge.main.pause": "请按Enter键退出",
+
+    "feedtheforge.progressbar.desc": "下载进度",
+    "feedtheforge.progressbar.unit": "个文件",
+
     "feedtheforge.i18n.failed": "错误：没有对应的本地化字符串"
 }

@@ -11,20 +11,28 @@ from feedtheforge.const import *
 
 
 async def download_files(files):
+    import tqdm
+
     tasks = []
-    async with AsyncDownloader() as dl:
-        for file_info in files:
-            file_path = file_info["path"][2:]
-            file_name = file_info["name"]
-            full_path = os.path.join(modpack_path, "overrides", file_path)
-            output_path = os.path.join(full_path, file_name)
+    desc = lang.t("feedtheforge.progressbar.desc")
+    unit = lang.t("feedtheforge.progressbar.unit")
+    with tqdm.tqdm(total=len(files), desc=desc, unit=unit, colour='green') as bar:
+        async with AsyncDownloader() as dl:
+            for file_info in files:
+                file_path = file_info["path"][2:]
+                file_name = file_info["name"]
+                full_path = os.path.join(modpack_path, "overrides", file_path)
+                output_path = os.path.join(full_path, file_name)
 
-            if not os.path.exists(output_path):
-                await utils.create_directory(full_path)
-                # 将任务添加到列表中
-                tasks.append(dl.download_file(file_info["url"], output_path))
-
-        await asyncio.gather(*tasks)
+                if not os.path.exists(output_path):
+                    await utils.create_directory(full_path)
+                    async def download_with_progress(url, path):
+                        await dl.download_file(url, path)
+                        bar.update(1)
+                    # 将任务添加到列表中
+                    tasks.append(download_with_progress(file_info["url"], output_path))
+            await asyncio.gather(*tasks)
+        bar.close()
 
 
 async def load_modpack_data(modpack_id: str) -> dict:
@@ -140,7 +148,7 @@ async def download_modpack(modpack_id: str) -> None:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
         utils.pause()
 
-    async with AsyncDownloader() as dl:
+    async with AsyncDownloader(timeout_enabled=False) as dl:
         download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
         await dl.download_file(download_url, os.path.join(cache_dir, "download.json"))
         await prepare_modpack_files(modpack_name, modpack_author)

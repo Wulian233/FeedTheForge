@@ -1,6 +1,7 @@
 **/__pycache__
 **/.vscode
 **/.idea
+*.spec
 *.zip
 .venv
 /__main__.build

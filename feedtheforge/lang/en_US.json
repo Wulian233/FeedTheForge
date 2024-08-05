@@ -29,5 +29,9 @@
     "feedtheforge.main.zipping_modpack": "Download completed, creating modpack installer...",
 
     "feedtheforge.main.pause": "Press Enter to exit",
+
+    "feedtheforge.progressbar.desc": "Progress",
+    "feedtheforge.progressbar.unit": "files",
+
     "feedtheforge.i18n.failed": "Error: No corresponding localization string"
 }
