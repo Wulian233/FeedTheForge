@@ -11,7 +11,6 @@
     "feedtheforge.start.exit": "退 出",
     "feedtheforge.start.exit_desc": "退 出 工 具 ， 关 闭 窗 口",
 
-    "feedtheforge.main.clean_temp": "清理缓存成功，共清理了 $size kb",
     "feedtheforge.main.default_version": "已自动选择最新的 $selected_version 版本",
     "feedtheforge.main.empty_search": "未输入关键词或搜索结果为空，无对应整合包",
     "feedtheforge.main.enter_id": "请输入要下载的整合包id：",
@@ -24,14 +23,18 @@
     "feedtheforge.main.invalid_modpack_version": "没有对应的整合包版本。请输入一个正确的版本。",
     "feedtheforge.main.unsupported_version": "该程序需要Python 3.8+运行，当前版本为Python $cur 。",
     "feedtheforge.main.version_list": "当前整合包可下载版本：$version_list",
-    "feedtheforge.main.modpack_created": "压缩成功。已创建名为 $modpack_name 的整合包，请拖入启动器安装",
     "feedtheforge.main.modpack_name": "成功选择了 $modpack_name ，正在获取可下载的版本，请稍等……",
-    "feedtheforge.main.zipping_modpack": "下载完成，正在压缩制作整合包安装包……",
+
+    "feedtheforge.main.progressbar_desc": "下载进度",
+    "feedtheforge.main.progressbar_unit": "个文件",
+
+    "feedtheforge.utils.zipping_modpack": "下载完成，正在压缩制作整合包安装包……",
+    "feedtheforge.utils.modpack_created": "压缩成功。已创建名为 $modpack_name 的整合包，请拖入启动器安装",
+    "feedtheforge.utils.clean_temp": "清理缓存成功，共清理了 $size kb",
+    "feedtheforge.utils.pause": "请按Enter键退出",
+
+    "feedtheforge.async_downloader.skip": "文件下载失败，跳过:  $path_part",
+    "feedtheforge.async_downloader.retries": "下载失败，尝试重新下载",
     
-    "feedtheforge.main.pause": "请按Enter键退出",
-
-    "feedtheforge.progressbar.desc": "下载进度",
-    "feedtheforge.progressbar.unit": "个文件",
-
     "feedtheforge.i18n.failed": "错误：没有对应的本地化字符串"
 }

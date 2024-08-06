@@ -26,7 +26,7 @@ WIP
      ```bash
      git clone https://github.com/Wulian233/FeedTheForge.git
      cd FeedTheForge
-     pip install -r requirements.txt
+     pip3 install -r requirements.txt
      ```
 
 2. **Run**:
@@ -37,13 +37,14 @@ WIP
 
 1. **Package**:
      ```bash
-     pip install pyinstaller
-     pyinstaller PyBuild/main.spec
+     pip3 install pyinstaller
      ```
+   - **Windows**: `python -m PyInstaller -F -i PyBuild/icon.ico -n FeedTheForge-Windows --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
+   - **macOS**: `python3 -m PyInstaller -F -i PyBuild/icon.icns -n FeedTheForge-macOS --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
+   - **Linux**: `python3 -m PyInstaller -F -n FeedTheForge-Linux --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
 3. **Locate the Executable**:
    - For **Windows**, the executable will be a `.exe` file located in the `dist` folder.
-   - For **macOS**, the application will be packaged as a `.app` bundle, also found in the `dist` folder.
-   - For **Linux**, the executable will be a standalone file in the `dist` folder.
+   - For **Linux and macOS**, the executable will be a standalone file in the `dist` folder.
 
 
 ## LICENSE

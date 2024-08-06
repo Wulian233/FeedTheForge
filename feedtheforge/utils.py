@@ -36,7 +36,7 @@ def zip_modpack(modpack_name):
     """
     from zipfile import ZIP_DEFLATED, ZipFile
 
-    print(lang.t("feedtheforge.main.zipping_modpack"))
+    print(lang.t("feedtheforge.utils.zipping_modpack"))
 
     with ZipFile(f"{modpack_name}.zip", "w", ZIP_DEFLATED) as zf:
         for dirname, _, files in os.walk(modpack_path):
@@ -44,7 +44,7 @@ def zip_modpack(modpack_name):
                 file_path = os.path.join(dirname, filename)
                 zf.write(file_path, os.path.relpath(file_path, modpack_path))
 
-    print(lang.t("feedtheforge.main.modpack_created", modpack_name=f"{modpack_name}.zip"))
+    print(lang.t("feedtheforge.utils.modpack_created", modpack_name=f"{modpack_name}.zip"))
     shutil.rmtree(modpack_path, ignore_errors=True)
 
 def clean_temp():
@@ -55,7 +55,7 @@ def clean_temp():
     for root, _, files in os.walk(cache_dir):
         size += sum([os.path.getsize(os.path.join(root, name)) for name in files])
     shutil.rmtree(cache_dir, ignore_errors=True)
-    print(lang.t("feedtheforge.main.clean_temp", size=int(size / 1024)))
+    print(lang.t("feedtheforge.utils.clean_temp", size=int(size / 1024)))
 
 def pause():
     """
@@ -64,5 +64,5 @@ def pause():
     if os.name == 'nt': 
         os.system('pause')
     else:
-        input(lang.t("feedtheforge.main.pause"))
+        input(lang.t("feedtheforge.utils.pause"))
     exit(0)

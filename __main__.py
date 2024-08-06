@@ -1,7 +1,7 @@
 if __name__ == "__main__":
     import asyncio
     import sys
-    from feedtheforge.i18n import lang
+    from feedtheforge.const import lang
     from feedtheforge.main import main
     from feedtheforge.utils import pause
     

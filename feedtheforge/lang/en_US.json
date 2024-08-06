@@ -11,7 +11,6 @@
     "feedtheforge.start.exit": "Exit",
     "feedtheforge.start.exit_desc": "Exit the tool and close the window",
 
-    "feedtheforge.main.clean_temp": "Cache cleaned successfully, a total of $size KB was cleaned",
     "feedtheforge.main.default_version": "Automatically selected the latest version $selected_version",
     "feedtheforge.main.empty_search": "No keywords entered or search results are empty, no corresponding modpack available",
     "feedtheforge.main.enter_id": "Please enter the ID of the modpack to download:",
@@ -24,14 +23,18 @@
     "feedtheforge.main.invalid_modpack_version": "No corresponding modpack version found. Please enter a valid version.",
     "feedtheforge.main.unsupported_version": "This program requires Python 3.8+ to run. The current version is Python $cur .",
     "feedtheforge.main.version_list": "Available versions for the current modpack: $version_list",
-    "feedtheforge.main.modpack_created": "Compression successful. A modpack named $modpack_name has been created. Please drag it into the launcher to install",
     "feedtheforge.main.modpack_name": "Successfully selected $modpack_name , getting the downloadable version, please wait...",
-    "feedtheforge.main.zipping_modpack": "Download completed, creating modpack installer...",
 
-    "feedtheforge.main.pause": "Press Enter to exit",
+    "feedtheforge.main.progressbar_desc": "Progress",
+    "feedtheforge.main.progressbar_unit": "files",
 
-    "feedtheforge.progressbar.desc": "Progress",
-    "feedtheforge.progressbar.unit": "files",
+    "feedtheforge.utils.zipping_modpack": "Download completed, creating modpack installer...",
+    "feedtheforge.utils.modpack_created": "Compression successful. A modpack named $modpack_name has been created. Please drag it into the launcher to install",
+    "feedtheforge.utils.clean_temp": "Cache cleaned successfully, a total of $size KB was cleaned",
+    "feedtheforge.utils.pause": "Press Enter to exit",
+
+    "feedtheforge.async_downloader.skip": "File download failed, skip: $path_part",
+    "feedtheforge.async_downloader.retries": "The download failed, try to download again",
 
     "feedtheforge.i18n.failed": "Error: No corresponding localization string"
 }

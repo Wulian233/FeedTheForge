@@ -14,8 +14,8 @@ async def download_files(files):
     import tqdm
 
     tasks = []
-    desc = lang.t("feedtheforge.progressbar.desc")
-    unit = lang.t("feedtheforge.progressbar.unit")
+    desc = lang.t("feedtheforge.main.progressbar_desc")
+    unit = lang.t("feedtheforge.main.progressbar_unit")
     with tqdm.tqdm(total=len(files), desc=desc, unit=unit, colour='green') as bar:
         async with AsyncDownloader() as dl:
             for file_info in files:
@@ -122,7 +122,7 @@ async def apply_chinese_patch(lanzou_url: str) -> None:
             patch_file = os.path.join(root, file)
             relative_path = os.path.relpath(patch_file, patch_folder)
             target_path = os.path.join(modpack_path, "overrides", relative_path)
-            os.makedirs(os.path.dirname(target_path), exist_ok=True)
+            await utils.create_directory(os.path.dirname(target_path))
             shutil.move(patch_file, target_path)
     shutil.rmtree(patch_folder)
 
@@ -167,7 +167,7 @@ async def download_modpack(modpack_id: str) -> None:
 
 
 async def prepare_modpack_files(modpack_name, modpack_author):
-    os.makedirs(modpack_path, exist_ok=True)
+    await utils.create_directory(modpack_path)
     async with aiofiles.open(os.path.join(cache_dir, "download.json"), "r", encoding="utf-8") as f:
         data = json.loads(await f.read())
     
@@ -216,8 +216,8 @@ async def prepare_modpack_files(modpack_name, modpack_author):
         #     mod_page_url = file_info.get("url", "#")
         #     await f.write(f'<li><a href="{mod_page_url}">{file_info["fileID"]}</a></li>\n')
         await f.write("</ul>\n")
-
-    os.makedirs(os.path.join(modpack_path, "overrides"), exist_ok=True)
+    
+    await utils.create_directory(os.path.join(modpack_path, "overrides"))
     await download_files(non_curse_files)
 
 
@@ -240,8 +240,7 @@ async def fetch_modpack_list():
     print(all_pack_ids)
 
 async def main():
-    if not os.path.exists(cache_dir):
-        os.makedirs(cache_dir)
+    await utils.create_directory(cache_dir)
 
     # 本地化中这里的字中间要有空格，不加空格VSCode终端正常，在cmd中字会重叠
     title = lang.t("feedtheforge.start.title")
