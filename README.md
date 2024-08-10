@@ -39,7 +39,7 @@ WIP
      ```bash
      pip3 install pyinstaller
      ```
-   - **Windows**: `python -m PyInstaller -F -i PyBuild/icon.ico -n FeedTheForge-Windows --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
+   - **Windows**: `python -m PyInstaller -F -i PyBuild/icon.ico -n FeedTheForge-Windows --add-data feedtheforge/lang:feedtheforge/lang --upx-dir PyBuild __main__.py`
    - **macOS**: `python3 -m PyInstaller -F -i PyBuild/icon.icns -n FeedTheForge-macOS --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
    - **Linux**: `python3 -m PyInstaller -F -n FeedTheForge-Linux --add-data feedtheforge/lang:feedtheforge/lang __main__.py`
 3. **Locate the Executable**:

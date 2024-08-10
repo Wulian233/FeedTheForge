@@ -148,23 +148,30 @@ async def download_modpack(modpack_id: str) -> None:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
         utils.pause()
 
-    async with AsyncDownloader(timeout_enabled=False) as dl:
-        download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
-        await dl.download_file(download_url, os.path.join(cache_dir, "download.json"))
-        await prepare_modpack_files(modpack_name, modpack_author)
+    index = utils.client_server()
+    if index == 0:
+        async with AsyncDownloader(timeout_enabled=False) as dl:
+            download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
+            await dl.download_file(download_url, os.path.join(cache_dir, "download.json"))
+            await prepare_modpack_files(modpack_name, modpack_author)
 
-    if current_language == "zh_CN":
-        async with AsyncDownloader() as dl:
-            # 切片[-27:]恰为模组文件名
-            await dl.download_file(I18NUPDATE_LINK, os.path.join(mod_path, I18NUPDATE_LINK[-27:]))
-        # 检查有无对应汉化
-        if str(selected_version) in all_patch:
-            install = input(lang.t("feedtheforge.main.has_chinese_patch"))
-            if install.lower() == "y":
-                await apply_chinese_patch(all_patch[selected_version])
-
-    utils.zip_modpack(modpack_name)
-
+        if current_language == "zh_CN":
+            async with AsyncDownloader() as dl:
+                # 切片[-27:]恰为模组文件名
+                await dl.download_file(I18NUPDATE_LINK, os.path.join(mod_path, I18NUPDATE_LINK[-27:]))
+            # 检查有无对应汉化
+            if str(selected_version) in all_patch:
+                install = input(lang.t("feedtheforge.main.has_chinese_patch"))
+                try:
+                    if install.lower() == "y":
+                        await apply_chinese_patch(all_patch[selected_version])
+                except Exception: pass
+        utils.zip_modpack(modpack_name)
+    else:
+    #   system = windows linux ???
+    #   download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}/server/{system}"
+      print("Work in progress 未完成")
+      utils.pause()
 
 async def prepare_modpack_files(modpack_name, modpack_author):
     await utils.create_directory(modpack_path)

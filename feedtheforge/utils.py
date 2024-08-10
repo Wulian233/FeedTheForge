@@ -66,3 +66,18 @@ def pause():
     else:
         input(lang.t("feedtheforge.utils.pause"))
     exit(0)
+
+def client_server():
+    from pick import pick, Option
+    # 本地化中这里的字中间要有空格，不加空格VSCode终端正常，在cmd中字会重叠
+    title = lang.t("feedtheforge.utils.title")
+    options = [
+        Option(lang.t("feedtheforge.utils.client"), 
+               description=lang.t("feedtheforge.utils.client_desc")),
+        Option(lang.t("feedtheforge.utils.server"), 
+               description=lang.t("feedtheforge.utils.server_desc")),
+    ]
+
+    option, index = pick(options, title, indicator="=>")
+
+    return index
