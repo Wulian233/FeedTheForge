@@ -3,12 +3,15 @@ import json
 import os
 import shutil
 import aiofiles
+from colorama import Fore, just_fix_windows_console
 from pick import pick, Option
 
 from feedtheforge import utils
 from feedtheforge.async_downloader import AsyncDownloader
 from feedtheforge.const import *
 
+
+just_fix_windows_console()
 
 async def download_files(files):
     import tqdm
@@ -148,10 +151,11 @@ async def download_modpack(modpack_id: str) -> None:
         print(lang.t("feedtheforge.main.invalid_modpack_version"))
         utils.pause()
 
-    index = utils.client_server()
-    if index == 0:
+    cs_index = utils.client_server()
+    download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
+    if cs_index == 0:
+        print(Fore.RED + lang.t("feedtheforge.main.prepare_download"))
         async with AsyncDownloader(timeout_enabled=False) as dl:
-            download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}"
             await dl.download_file(download_url, os.path.join(cache_dir, "download.json"))
             await prepare_modpack_files(modpack_name, modpack_author)
 
@@ -168,10 +172,19 @@ async def download_modpack(modpack_id: str) -> None:
                 except Exception: pass
         utils.zip_modpack(modpack_name)
     else:
-    #   system = windows linux ???
-    #   download_url = f"https://api.modpacks.ch/public/modpack/{modpack_id}/{selected_version}/server/{system}"
-      print("Work in progress 未完成")
-      utils.pause()
+        os_index = utils.server_os()
+        if os_index == 0:
+            download_url = download_url + "/server/linux"
+        elif os_index == 1:
+            download_url = download_url + "/server/windows"
+        elif os_index == 2:
+            download_url = download_url + "/server/mac"
+        elif os_index == 3:
+            download_url = download_url + "/server/arm/linux"
+        elif os_index == 4:
+            download_url = download_url + "/server/arm/mac"
+        print("Work in progress 未完成")
+        utils.pause()
 
 async def prepare_modpack_files(modpack_name, modpack_author):
     await utils.create_directory(modpack_path)

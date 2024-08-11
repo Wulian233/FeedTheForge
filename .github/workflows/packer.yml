@@ -60,6 +60,7 @@ jobs:
       - name: Upload (macOS)
         uses: actions/upload-artifact@v4
         with:
+          name: FeedTheForge-macOS
           path: dist/FeedTheForge-macOS
 
   build-linux:
@@ -85,4 +86,5 @@ jobs:
       - name: Upload (Linux)
         uses: actions/upload-artifact@v4
         with:
+          name: FeedTheForge-Linux
           path: dist/FeedTheForge-Linux

@@ -5,7 +5,7 @@
     "feedtheforge.start.search_modpack": "Search Modpacks",
     "feedtheforge.start.search_modpack_desc": "Enter English keywords to search for modpacks, then select to download",
     "feedtheforge.start.enter_id": "Enter Modpack ID",
-    "feedtheforge.start.enter_id_desc": "Directly enter the numeric ID of the modpack to download",
+    "feedtheforge.start.enter_id_desc": "Directly enter the numeric ID of the modpack to download, can be viewed on the FTB official website",
     "feedtheforge.start.clean_temp": "Clean Cache",
     "feedtheforge.start.clean_temp_desc": "Clear cached modpack information. The next startup will be slower",
     "feedtheforge.start.exit": "Exit",
@@ -25,11 +25,12 @@
     "feedtheforge.main.unsupported_version": "This program requires Python 3.8+ to run. The current version is Python $cur .",
     "feedtheforge.main.version_list": "Available versions for the current modpack: $version_list",
     "feedtheforge.main.modpack_name": "Successfully selected $modpack_name , getting the downloadable version, please wait...",
+    "feedtheforge.main.prepare_download": "Getting all files, waiting time depends on the size of the modpack. Expected to take 15 seconds, please wait...",
 
     "feedtheforge.main.progressbar_desc": "Progress",
     "feedtheforge.main.progressbar_unit": "files",
 
-    "feedtheforge.utils.title": "Please select the type of modpack you want to download",
+    "feedtheforge.utils.type_title": "Please select the type of modpack you want to download",
     "feedtheforge.utils.client": "Client",
     "feedtheforge.utils.client_desc": "For the majority of players, choose this option in most cases",
     "feedtheforge.utils.server": "Server",
