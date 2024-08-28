@@ -29,13 +29,12 @@ jobs:
       - name: UPX
         run: |
           cd PyBuild
-          upx -f -9 ../dist/FeedTheForge-Windows.exe
+          upx.exe -f -9 ../dist/FeedTheForge-Windows.exe
           cd ..
 
       - name: Upload (Windows)
         uses: actions/upload-artifact@v4
         with:
-          name: FeedTheForge-Windows
           path: dist/FeedTheForge-Windows.exe
 
   build-macos:

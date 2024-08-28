@@ -37,5 +37,6 @@ all_patch = {
     # 122 Builders Paradise 2
     "11840": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
     "11937": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
-    "12266": "https://wulian233.lanzouj.com/ib5G81wnrpwb"
+    "12266": "https://wulian233.lanzouj.com/ib5G81wnrpwb",
+    "12404": "https://wulian233.lanzouj.com/icnqS28kvsbg"
 }
