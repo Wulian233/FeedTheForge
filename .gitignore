@@ -1,0 +1,8 @@
+curse-the-beast-master
+__pycache__
+.vscode
+.idea
+.venv
+dist
+build
+*.zip

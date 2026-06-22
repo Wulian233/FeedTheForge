@@ -1,0 +1,13 @@
+class RepoType:
+    NONE = "None"
+    ASSET = "Asset"
+    ASSET_V2 = "AssetV2"
+    ICON = "Icon"
+    MOD_LOADER = "ModLoader"
+    MOD_LOADER_JAR = "ModLoaderJar"
+    MAVEN_ARTIFACT = "MavenArtifact"
+    SERVER_JAR = "ServerJar"
+    SERVER_MAPPINGS = "ServerMappings"
+    JRE_ARCHIVE = "JreArchive"
+    JAVA_RUNTIME = "JavaRuntime"
+    TEMP = "Temp"
